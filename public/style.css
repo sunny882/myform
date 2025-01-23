@@ -30,7 +30,7 @@
 @media (max-width: 600px) {
     .modal-content {
             background-color: #fff;
-            margin: 15% auto;
+            margin: 10px;
             padding: 20px;
             border-radius: 8px;
             width: auto;
