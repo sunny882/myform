@@ -8,15 +8,7 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-        #otherLocationInput,
-        #bellTechInfo,
-        #reportedToInput {
-            display: none;
-            /* Hide sections initially */
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -92,95 +84,23 @@
                 <label for="comments">Comments:</label>
                 <textarea id="comments" name="comments" class="form-control" rows="4"></textarea>
             </div>
-            <input type="checkbox" name="" value="" id="myCheck" required>
-            <label for="myCheck">I have checked the filled details twice</label>
-            <br>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" class="btn btn-primary" id="previewBtn">Preview</button>
         </form>
     </div>
 
-    <!-- Bootstrap JS and dependencies -->
+    <!-- Preview Popup -->
+    <div id="previewModal" class="modal">
+        <div class="modal-content">
+            <h4>Preview Information</h4>
+            <div id="previewContent"></div>
+            <button id="editBtn" class="btn btn-warning">Edit</button>
+            <button id="submitBtn" class="btn btn-success">Submit</button>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <script>
-        const startInput = document.getElementById('start');
-        const endInput = document.getElementById('end');
-        const durationDisplay = document.getElementById('duration');
-        const shiftDropdown = document.getElementById('shift');
-        const otherLocationInput = document.getElementById('otherLocationInput');
-        const reportedToInput = document.getElementById('reportedToInput');
-        const bellTechInfo = document.getElementById('bellTechInfo');
-
-        function calculateDuration() {
-            const startTime = new Date(startInput.value);
-            const endTime = new Date(endInput.value);
-
-            if (startTime && endTime && startTime < endTime) {
-                const durationInMs = endTime - startTime;
-                const durationInHours = (durationInMs / (1000 * 60 * 60)).toFixed(2);
-                durationDisplay.textContent = durationInHours;
-            } else {
-                durationDisplay.textContent = "0";
-            }
-        }
-
-        startInput.addEventListener('input', calculateDuration);
-        endInput.addEventListener('input', calculateDuration);
-
-        shiftDropdown.addEventListener('change', () => {
-            if (shiftDropdown.value === 'Other') {
-                otherLocationInput.style.display = 'block';
-                reportedToInput.style.display = 'block';
-            } else {
-                otherLocationInput.style.display = 'none';
-                reportedToInput.style.display = 'none';
-            }
-
-            if (shiftDropdown.value === 'Bell Tech') {
-                bellTechInfo.style.display = 'block';
-            } else {
-                bellTechInfo.style.display = 'none';
-            }
-        });
-        document.getElementById('shiftForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const formData = {
-                name: document.getElementById('name').value,
-                shiftLocation: document.getElementById('shift').value,
-                otherShift: document.getElementById('otherShift').value || null,
-                reportedTo: document.getElementById('reportedTo').value || null,
-                bellTechLocation: document.getElementById('bellTechLocation').value || null,
-                managementInfo: document.getElementById('managementInfo').value || null,
-                technicalInfo: document.getElementById('technicalInfo').value || null,
-                start: document.getElementById('start').value,
-                end: document.getElementById('end').value,
-                duration: parseFloat(document.getElementById('duration').textContent),
-            };
-
-            try {
-                const response = await fetch('https://cssrp.up.railway.app/api/shift', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData),
-                });
-
-                const result = await response.json();
-                if (response.ok) {
-                    alert('Form submitted successfully!');
-                } else {
-                    alert(`Error: ${result.error}`);
-                }
-            } catch (error) {
-                console.error('Error submitting form:', error);
-            }
-        });
-
-    </script>
+    <script src="script.js"></script>
 </body>
 
 </html>
