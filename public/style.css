@@ -24,5 +24,16 @@
     padding: 20px;
     border-radius: 8px;
     width: 50%;
-    text-align: center;
+    text-align: left;
+}
+
+@media (max-width: 600px) {
+    .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: auto;
+            text-align: left;
+        }
 }
