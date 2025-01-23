@@ -27,10 +27,19 @@ const shiftSchema = new mongoose.Schema({
     bellOrOtherInfo: { type: String }, // Includes Bell Tech or "Other" details
 });
 
-
 const Shift = mongoose.model('Shift', shiftSchema);
 
 // Routes
+
+// Serve static files (if hosting a front-end with the same backend)
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// API route to handle shift submissions
 app.post('/api/shift', async (req, res) => {
     try {
         const {
@@ -40,18 +49,26 @@ app.post('/api/shift', async (req, res) => {
             bellTechLocation,
             managementInfo,
             technicalInfo,
+            reportedTo,
             start,
             end,
             duration,
         } = req.body;
 
-        // Determine the `location` and `bellOrOtherInfo` fields based on input
+        // Validate required fields
+        if (!name || !shiftLocation || !start || !end || !duration) {
+            return res.status(400).json({ error: 'Missing required fields.' });
+        }
+
+        // Determine `location` and `bellOrOtherInfo`
         const location = shiftLocation === 'Other' ? otherShift : shiftLocation;
-        const bellOrOtherInfo = shiftLocation === 'Bell Tech'
-            ? `Bell Tech Info: Location - ${bellTechLocation}, Management - ${managementInfo}, Technical - ${technicalInfo}`
-            : shiftLocation === 'Other'
-                ? `Reported To: ${req.body.reportedTo}`
-                : null;
+        let bellOrOtherInfo = null;
+
+        if (shiftLocation === 'Bell Tech') {
+            bellOrOtherInfo = `Bell Tech Info: Location - ${bellTechLocation}, Management - ${managementInfo}, Technical - ${technicalInfo}`;
+        } else if (shiftLocation === 'Other') {
+            bellOrOtherInfo = `Reported To: ${reportedTo}`;
+        }
 
         // Create a new Shift document
         const newShift = new Shift({
@@ -63,12 +80,14 @@ app.post('/api/shift', async (req, res) => {
             bellOrOtherInfo,
         });
 
+        // Save to MongoDB
         await newShift.save();
         res.status(201).json({ message: 'Shift data saved successfully!' });
     } catch (error) {
+        console.error('Error saving shift data:', error);
         res.status(500).json({ error: 'Error saving shift data.' });
     }
 });
 
-
+// Start the server
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
