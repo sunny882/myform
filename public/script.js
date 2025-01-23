@@ -79,7 +79,7 @@ document.getElementById('previewBtn').addEventListener('click', () => {
             const label = key
                 .replace(/([A-Z])/g, " $1") // Convert camelCase to Title Case
                 .replace(/^\w/, (c) => c.toUpperCase()); // Capitalize first letter
-            previewHtml += `<p><strong>${label}:</strong> ${value} hours </p>`;
+            previewHtml += `<p><strong>${label}:</strong> ${value} </p>`;
         }
     }
 
