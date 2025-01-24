@@ -129,7 +129,7 @@ document.getElementById('submitBtn').addEventListener('click', async () => {
     };
 
     try {
-        const response = await fetch('https://cssrp.up.railway.app/api/shift', {
+        const response = await fetch('https://myform-xvtk.onrender.com/api/shift', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
