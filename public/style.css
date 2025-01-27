@@ -36,4 +36,15 @@
             width: auto;
             text-align: left;
         }
+         #previewModal .modal-dialog .modal-content {
+            width: 100%;
+        }
 }
+
+@media (min-width: 600px) {
+    #previewModal .modal-dialog .modal-content{
+        width: 100%;
+        /* Adjust the width as needed */
+    }
+}
+ 

@@ -6,6 +6,7 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const PASS = process.env.PASS
 
 // Middleware
 app.use(cors());
@@ -30,9 +31,23 @@ const shiftSchema = new mongoose.Schema({
 const Shift = mongoose.model('Shift', shiftSchema);
 
 // Routes
+app.post('/api/validate-password', (req, res) => {
+    const { password } = req.body;
+
+    if (!password) {
+        return res.status(400).json({ valid: false, error: 'Password is required' });
+    }
+
+    if (password === PASS) {
+        return res.json({ valid: true });
+    } else {
+        return res.status(401).json({ valid: false, error: 'Invalid password' });
+    }
+});
 
 // Serve static files (if hosting a front-end with the same backend)
 const path = require('path');
+const { env } = require('process');
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {

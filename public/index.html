@@ -12,7 +12,27 @@
 </head>
 
 <body>
-    <div class="container mt-5">
+    <!-- Password Modal -->
+    <div id="passwordModal" class="modal" style="display: block; background: rgba(0,0,0,0.8);">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Password Required</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Please enter the password to access this form:</p>
+                    <input type="password" id="passwordInput" class="form-control" placeholder="Enter password">
+                    <small id="errorText" class="text-danger d-none">Incorrect password. Please try again.</small>
+                </div>
+                <div class="modal-footer">
+                    <button id="submitPassword" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form Container -->
+    <div class="container mt-5" style="display: none;" id="formContainer">
         <h2 class="mb-4">Employee Shift Information</h2>
         <form id="shiftForm">
             <div class="form-group">
@@ -34,21 +54,20 @@
                 </select>
             </div>
 
-            <div id="otherLocationInput" class="form-group">
+            <div id="otherLocationInput" class="form-group" style="display: none;">
                 <label for="otherShift">Specify Location:</label>
                 <input type="text" id="otherShift" name="otherShift" class="form-control"
                     placeholder="Enter location name">
             </div>
 
-            <div id="reportedToInput" class="form-group">
+            <div id="reportedToInput" class="form-group" style="display: none;">
                 <label for="reportedTo">Reported To:</label>
                 <input type="text" id="reportedTo" name="reportedTo" class="form-control"
                     placeholder="Enter supervisor/manager name">
             </div>
 
-            <div id="bellTechInfo">
+            <div id="bellTechInfo" style="display: none;">
                 <h3>Bell Tech Information</h3>
-
                 <div class="form-group">
                     <label for="bellTechLocation">Location Name:</label>
                     <input type="text" id="bellTechLocation" name="bellTechLocation" class="form-control"
@@ -88,17 +107,25 @@
         </form>
     </div>
 
-    <!-- Preview Popup -->
-    <div id="previewModal" class="modal">
-        <div class="modal-content" class="d-flex flex-column">
-            <h4>Preview Information</h4>
-            <div id="previewContent"></div>
-            <button id="editBtn" class="btn btn-warning ">Edit</button>
-            <button id="submitBtn" class="btn btn-success mt-1">Submit</button>
+    <!-- Preview Modal (needs an ID and container for preview content) -->
+    <div id="previewModal" class="modal" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Preview</h5>
+                </div>
+                <div class="modal-body">
+                    <div id="previewContent"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="editBtn">Edit</button>
+                    <button type="button" class="btn btn-primary" id="submitBtn">Submit</button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
+    <!-- Bootstrap JS and jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="script.js"></script>
 </body>
